@@ -1,0 +1,46 @@
+[mysqld]
+#skip-federated
+#skip-blackhole
+#skip-archive
+
+collation-server = utf8_unicode_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
+
+max_connections = 200
+max_user_connections = 50
+
+innodb_file_per_table
+innodb_flush_log_at_trx_commit = 2
+innodb_buffer_pool_size = 1G
+innodb_buffer_pool_instances = 1
+innodb_flush_method = O_DIRECT
+transaction-isolation = READ-COMMITTED
+innodb_log_file_size = 64M
+innodb_log_buffer_size = 16M
+
+query_cache_size = 64M
+query_cache_type = 1
+query_cache_limit = 8M
+thread_cache_size = 16
+table_cache = 2048
+
+skip-name-resolve
+bind-address = 127.0.0.1
+
+join_buffer_size = 16M
+sort_buffer_size = 16M
+
+tmp_table_size = 16M
+max_heap_table_size = 16M
+
+max_allowed_packet = 64M
+
+wait_timeout = 600
+
+#slow_query_log = 1
+#long_query_time = 2
+#log_queries_not_using_indexes = 1
+#slow_query_log_file = /var/log/mysql/slow_queries.log
+
+key_buffer_size = 1M
