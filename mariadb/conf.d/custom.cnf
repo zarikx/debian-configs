@@ -41,6 +41,6 @@ wait_timeout = 600
 #slow_query_log = 1
 #long_query_time = 2
 #log_queries_not_using_indexes = 1
-#slow_query_log_file = /var/log/mysql/slow_queries.log
+#slow_query_log_file = /var/log/mysql/mysql-slow.log
 
 key_buffer_size = 1M
