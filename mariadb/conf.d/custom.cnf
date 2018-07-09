@@ -16,7 +16,8 @@ innodb_buffer_pool_size = 512M
 innodb_buffer_pool_instances = 1
 innodb_flush_method = O_DIRECT
 transaction-isolation = READ-COMMITTED
-innodb_log_file_size = 64M
+innodb_log_file_size = 64M                       # 25% of (innodb_buffer_pool_size / innodb_log_files_in_group)
+innodb_log_files_in_group = 2
 innodb_log_buffer_size = 16M
 
 query_cache_size = 64M
