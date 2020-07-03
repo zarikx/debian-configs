@@ -1,8 +1,4 @@
 [mysqld]
-#skip-federated
-#skip-blackhole
-#skip-archive
-
 collation-server = utf8_unicode_ci
 init-connect='SET NAMES utf8'
 character-set-server = utf8
@@ -43,5 +39,8 @@ wait_timeout = 600
 #long_query_time = 2
 #log_queries_not_using_indexes = 1
 #slow_query_log_file = /var/log/mysql/mysql-slow.log
+
+sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+performance_schema = ON
 
 key_buffer_size = 1M
