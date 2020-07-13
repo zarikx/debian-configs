@@ -48,3 +48,5 @@ sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTIO
 performance_schema = ON
 
 key_buffer_size = 1M
+
+aria_pagecache_buffer_size = 8M
