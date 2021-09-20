@@ -35,7 +35,7 @@ server {
         return 404;
     }
 
-    location ~ /(_protected|log|log2|docs) {
+    location ~ ^/(_protected|log|log2|docs) {
         deny all;
         return 404;
     }
@@ -46,7 +46,7 @@ server {
             return 404;
         }
 
-        try_files $uri $uri/ /gate1/api2.php?$args;
+        try_files $uri /gate1/api2.php?$args;
     }
 
     location /gate2/ {
@@ -55,43 +55,55 @@ server {
             return 404;
         }
 
-        try_files $uri $uri/ /gate2/api2.php?$args;
+        try_files $uri /gate2/api2.php?$args;
     }
 
     location /m-ticket/sfad/ {
         location ~ /(protected) { deny all; return 404; }
 
         rewrite (.*)\.small\.([^\.]+)$ /m-ticket/sfad/thumb.php?img=$1.$2;
-        try_files $uri $uri/ /m-ticket/sfad/index.php?$args;
+        try_files $uri /m-ticket/sfad/index.php?$args;
     }
 
     location /m-ticket/ {
         location ~ /(protected|cachedata2) { deny all; return 404; }
 
         rewrite agent[0-9]+site[0-9]+[a-z]*/(.*) /m-ticket/$1;
-        try_files $uri $uri/ /m-ticket/index.php?$args;
+        try_files $uri /m-ticket/index.php?$args;
     }
 
     location /m-ticket2/sfad/ {
         location ~ /(protected) { deny all; return 404; }
 
         rewrite (.*)\.small\.([^\.]+)$ /m-ticket2/sfad/thumb.php?img=$1.$2;
-        try_files $uri $uri/ /m-ticket2/sfad/index.php?$args;
+        try_files $uri /m-ticket2/sfad/index.php?$args;
     }
 
     location /m-ticket2/ {
         location ~ /(protected|cachedata2) { deny all; return 404; }
 
         rewrite agent[0-9]+site[0-9]+[a-z]*/(.*) /m-ticket2/$1;
-        try_files $uri $uri/ /m-ticket2/index.php?$args;
+        try_files $uri /m-ticket2/index.php?$args;
+    }
+
+    location ~* .(jpg|jpeg|gif|png|ico|svg|css|zip|tgz|gz|rar|bz2|doc|xls|exe|pdf|ppt|txt|odt|ods|odp|odf|tar|wav|bmp|rtf|js|mp3|avi|mpeg|flv|html|htm|woff2|json)$ {
+        rewrite /m-ticket/agent[0-9]+site[0-9]+[a-z]*/(.*) /m-ticket/$1;
+        rewrite /m-ticket/sfad/(.*)\.small\.([^\.]+)$ /m-ticket/sfad/thumb.php?img=$1.$2;
+
+        rewrite /m-ticket2/agent[0-9]+site[0-9]+[a-z]*/(.*) /m-ticket2/$1;
+        rewrite /m-ticket2/sfad/(.*)\.small\.([^\.]+)$ /m-ticket2/sfad/thumb.php?img=$1.$2;
+
+        add_header Pragma "public";
+        add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+
+        fastcgi_hide_header "Set-Cookie";
+        access_log off;
+        log_not_found off;
+        expires   30d;
     }
 
     location / {
         try_files $uri $uri/ /index.php?$args;
-        location ~* ^.+\.(ogg|ogv|svg|svgz|swf|eot|otf|woff|woff2|mov|mp3|mp4|webm|flv|ttf|rss|atom|jpg|jpeg|gif|png|ico|bmp|mid|midi|wav|rtf|css|js|jar)$ {
-            expires 30d;
-            fastcgi_hide_header "Set-Cookie";
-        }
     }
 
     location ~ [^/]\.php(/|$) {
@@ -112,7 +124,8 @@ server {
         return 404;
     }
 
-    error_page 404 /index.php;
+    location = /docker-compose.yml  { return 404; access_log off; log_not_found off; }
+    location = /Makefile  { return 404; access_log off; log_not_found off; }
 
     location /vstats/ {
         alias   %home%/%user%/web/%domain%/stats/;
