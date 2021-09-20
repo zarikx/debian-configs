@@ -42,7 +42,7 @@ wait_timeout = 600
 #slow_query_log = 1
 #long_query_time = 2
 #log_queries_not_using_indexes = 1
-#slow_query_log_file = /var/log/mysql/slow_queries.log
+#slow_query_log_file = /var/log/mysql/mysql-slow.log
 
 sql_mode = 'ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 performance_schema = ON
